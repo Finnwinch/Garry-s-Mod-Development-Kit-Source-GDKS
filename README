@@ -1,30 +1,16 @@
-put gdks folder inside garrysmod/lua/includes
+goto garrysmod/lua/includes
+create a gdks folder and put all file in
 put this code on the bottom of init.lua
+visit gdks.wortoone.ca to see the api of this framework
 
 if ( SERVER or CLIENT ) then
 	GDKS = {}
 	GDKS.DEV = true
 end
-
 if ( SERVER ) then
 	include("gdks/server/network.lua")
+	AddCSLuaFile("gdks/client/network.lua")
 end
-
-#How to use network
-
---[[    NETWORK REGISTER
-GDKS.NET:NETWORK({"MyFirstNet","MySecondNet"})
-]]--
-
---[[    NETWORK SIMPLE PING
-GDKS.NET("MyFirstNet"):write(SEND_PLAYER_ONE)   --SERVER CALL
-MyFirstNetFunc = function(len,ply) print(len,ply) end   --CLIENT PROCESS
-GDKS.NET("MyFirstNet"):read(MyFirstNetFunc) --CLIENT HANDLE
-]]--
-
---[[    NETWORK WITH INSTRUCTION handle
-GDKS.NET("MySecondNet"):write({message = "hello world"})   --CLIENT CALL
-local MySecondNetHandle = GDKS.NET("MySecondNet") --SERVER HANDLE CATCHE
-MySecondNetFunc = function(len,ply) print(len,ply,MySecondNetHandle:get("message")) end --SERVER PROCESS
-MySecondNetHandle:read(MySecondNetFunc)   --SERVER HANDLE
-]]--
+if ( CLIENT ) then
+	include("gdks/client/network.lua")
+end
