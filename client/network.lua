@@ -1,17 +1,17 @@
 local netData = {name=nil,data={}}
 function netData:write(data)
     local package = "@"
-    local serialize = function(tableToSerial, parentKey)
+    local serialisation = function(tableToSerial, parentKey)
         for key, value in pairs(tableToSerial) do
             local fullKey = parentKey and (parentKey .. "." .. key) or key
             if type(value) == "table" then
-                serialize(value, fullKey)
+                serialisation(value, fullKey)
             else
                 package = package .. fullKey .. "$" .. tostring(value) .. "@"
             end
         end
     end
-    serialize(data or {})
+    serialisation(data or {})
     package = util.Compress(package)
     local size = #package
     net.Start(self.name)

@@ -1,17 +1,17 @@
 local netData = {name=nil,data={}}
 function netData:write(recivers,data)
     local package = "@"
-    serialize = function(tableToSerial, parentKey)
+    local serialisation = function(tableToSerial, parentKey)
         for key, value in pairs(tableToSerial) do
             local fullKey = parentKey and (parentKey .. "." .. key) or key
             if type(value) == "table" then
-                serialize(value, fullKey)
+                serialisation(value, fullKey)
             else
                 package = package .. fullKey .. "$" .. tostring(value) .. "@"
             end
         end
     end
-    serialize(data or {})
+    serialisation(data or {})
     package = util.Compress(package)
     local size = #package
     net.Start(self.name)
@@ -36,13 +36,14 @@ function netData:get(datakey)
 end
 local netMeta = {
     __call = function(self,name)
-        local instance = setmetatable({},{__index = self})
+        local instance = setmetatable({_child=true},{__index = self})
         instance.name = name
         return instance
     end
 }
 function netData:NETWORK(names)
     if CLIENT then return end
+    if self._child then error("InvalidateContext : you must call this methode in static context") end
     for _,name in ipairs(names) do
         util.AddNetworkString(name)
     end
