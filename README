@@ -1,14 +1,12 @@
 put gdks folder inside garrysmod/lua/includes
 put this code on the bottom of init.lua
 
-if ( SERVER or CLIENT ) then
-	GDKS = {}
-	GDKS.DEV = true
-end
-
-if ( SERVER ) then
-	include("gdks/server/network.lua")
-end
+--[[
+	GDKS STUFF TO LOAD!
+]]--
+if ( SERVER ) then AddCSLuaFile("gdks/loader.lua") end
+if ( SERVER ) then include("gdks/loader.lua") end
+if ( CLIENT ) then include("gdks/loader.lua") end
 
 #How to use network
 
