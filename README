@@ -1,5 +1,7 @@
-put gdks folder inside garrysmod/lua/includes
+goto garrysmod/lua/includes
+create a gdks folder and put all file in
 put this code on the bottom of init.lua
+visit gdks.wortoone.ca to see the api of this framework
 
 --[[
 	GDKS STUFF TO LOAD!
